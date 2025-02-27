@@ -1,0 +1,71 @@
+﻿@model IEnumerable<InvBackend.Models.QrtRevModel>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Industry)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Eps)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OperatingRev)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OperatingProfit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NonOperating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NetIncome)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Industry)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Eps)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperatingRev)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperatingProfit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NonOperating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NetIncome)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

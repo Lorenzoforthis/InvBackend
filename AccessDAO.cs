@@ -70,5 +70,39 @@ namespace InvBackend
 
             return returnThese;
         }
+
+        public List<QrtRevModel> getFilterData(string industry)
+        {
+            List<QrtRevModel> returnThese = new List<QrtRevModel>();
+
+            using (MySqlConnection connection = new MySqlConnection(connectionStringData))
+            {
+                connection.Open();
+
+                MySqlCommand command = new MySqlCommand("SELECT * FROM quarterly_financials_typed WHERE industry = @industry", connection);
+                command.Parameters.AddWithValue("@industry", industry);
+
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        QrtRevModel data = new QrtRevModel
+                        {
+                            Id = reader.GetInt32(3), // Assuming this is the primary key and is an integer
+                            CompanyName = reader.GetString(4), // Corrected index for company_name
+                            Industry = reader.GetString(5), // Corrected index for industry
+                            Eps = reader.IsDBNull(6) ? 0 : reader.GetDecimal(6), // Check for NULL
+                            OperatingRev = reader.IsDBNull(8) ? 0 : reader.GetDecimal(8), // Check for NULL
+                            OperatingProfit = reader.IsDBNull(9) ? 0 : reader.GetDecimal(9), // Check for NULL
+                            NonOperating = reader.IsDBNull(10) ? 0 : reader.GetDecimal(10), // Check for NULL
+                            NetIncome = reader.IsDBNull(11) ? 0 : reader.GetDecimal(11), // Check for NULL
+                        };
+                        returnThese.Add(data); // Add the data to the list
+                    }
+                }
+            }
+
+            return returnThese;
+        }
     }
 }

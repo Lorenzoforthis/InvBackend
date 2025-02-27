@@ -72,4 +72,11 @@
 </table>
 <script>
     console.log("123");
+   
+    // Pass the model data from C# to JavaScript as JSON
+    var modelData = @Html.Raw(Json.Serialize(Model));
+
+    // You can now use the modelData as a JavaScript object
+    console.log(modelData);
+
 </script>
