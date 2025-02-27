@@ -1,36 +1,60 @@
 ﻿@model IEnumerable<InvBackend.Models.QrtRevModel>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+
+
+<div class="card">
+    <div class="card-body">
+        <form id="industryForm" action="/QrtRev/Details" method="GET">
+            <select name="industry" id="industrySelect" class="form-select">
+                <option value="" selected disabled>--請選擇產業</option>              
+                <option value="水泥工業">水泥工業</option>
+                <option value="食品工業">食品工業</option>
+                <option value="塑膠工業">塑膠工業</option>
+                <option value="建材營造">建材營造</option>
+                <option value="汽車工業">汽車工業</option>
+                <option value="其他">其他</option>
+                <option value="紡織纖維">紡織纖維</option>
+                <option value="運動休閒">運動休閒</option>
+                <option value="電子零組件業">電子零組件業</option>
+                <option value="電機機械">電機機械</option>
+                <option value="電器電纜">電器電纜</option>
+                <option value="生技醫療業">生技醫療業</option>
+                <option value="化學工業">化學工業</option>
+                <option value="玻璃陶瓷">玻璃陶瓷</option>
+                <option value="造紙工業">造紙工業</option>
+                <option value="鋼鐵工業">鋼鐵工業</option>
+                <option value="居家生活">居家生活</option>
+                <option value="橡膠工業">橡膠工業</option>
+                <option value="航運業">航運業</option>
+                <option value="電腦及週邊設備業">電腦及週邊設備業</option>
+                <option value="半導體業">半導體業</option>
+                <option value="其他電子業">其他電子業</option>
+                <option value="通信網路業">通信網路業</option>
+                <option value="光電業">光電業</option>
+                <option value="電子通路業">電子通路業</option>
+                <option value="資訊服務業">資訊服務業</option>
+                <option value="貿易百貨">貿易百貨</option>
+                <option value="油電燃氣業">油電燃氣業</option>
+                <option value="觀光餐旅">觀光餐旅</option>
+                <option value="金融保險業">金融保險業</option>
+                <option value="數位雲端">數位雲端</option>
+                <option value="綠能環保">綠能環保</option>
+            </select>       
+        </form>
+    </div>
+</div>
+<table class="table table-striped table-hover ">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CompanyName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Industry)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Eps)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OperatingRev)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OperatingProfit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NonOperating)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NetIncome)
-            </th>
-            <th></th>
+            <th>股票代碼</th>
+            <th>公司名稱</th>
+            <th>產業</th>
+            <th>EPS</th>
+            <th>營業收入</th>
+            <th>營業利益</th>
+            <th>營業外收入及支出</th>
+            <th>稅後淨利</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -69,3 +93,12 @@
 }
     </tbody>
 </table>
+
+<script src="~/js/jquery-3-7-1-min.js"></script>
+<script>
+    $("#industrySelect").change(function() {
+        const industryFiltered = $(this).val();
+        // Submit the form when industry is selected
+        $("#industryForm").submit();
+    });
+</script>

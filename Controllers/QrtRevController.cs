@@ -15,16 +15,18 @@ namespace InvBackend.Controllers
 
             return View(Model);
         }
-
-        // GET: QrtRevController/Details/5
+        [HttpGet]      
+       
         public ActionResult Details(String industry)
         {
+
             AccessDAO accessMysqldb = new AccessDAO();
 
-            List<QrtRevModel> Model = accessMysqldb.getFilterData(industry= "食品工業");
+            List<QrtRevModel> Model = accessMysqldb.getFilterData(industry);
 
             return View(Model);
         }
+
 
         // GET: QrtRevController/Create
         public ActionResult Create()
