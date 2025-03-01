@@ -20,8 +20,11 @@
   <ItemGroup>
     <Content Remove="wwwroot\css\bootstrap.min.css" />
     <Content Remove="wwwroot\css\bootstrap.min.css.map" />
+    <Content Remove="wwwroot\js\chartFunc\crud.js" />
+    <Content Remove="wwwroot\js\chartFunc\lineAjax.js" />
     <Content Remove="wwwroot\js\gold_price.js" />
     <Content Remove="wwwroot\js\jquery-3.7.1.min.js" />
+    <Content Remove="wwwroot\js\jsonAjax.js" />
   </ItemGroup>
 
   <ItemGroup>

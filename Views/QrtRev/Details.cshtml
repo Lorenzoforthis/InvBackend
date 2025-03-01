@@ -4,6 +4,24 @@
     <link rel="stylesheet" href="~/css/all.min.css" />
     <link rel="stylesheet" href="~/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/text_selection.css" />
+    <style>
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .page-info {
+            margin: 0 15px;
+            align-self: center;
+        }
+        .pagination-button {
+            margin: 0 5px;
+        }
+        .pagination-button:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+    </style>
 </head>
 
 <div class="row">
@@ -61,7 +79,7 @@
                 </form>
             </div>
         </div>
-        <table class="table table-striped table-hover ">
+        <table id="dataTable" class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th>股票代碼</th>
@@ -78,7 +96,7 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
+                    <tr class="table-row">
                         <td>
                             @Html.DisplayFor(modelItem => item.Id)
                         </td>
@@ -112,6 +130,19 @@
                 }
             </tbody>
         </table>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-container">
+            <button id="prevButton" class="btn btn-primary pagination-button">
+                <i class="fas fa-chevron-left"></i> 上一頁
+            </button>
+            <div class="page-info">
+                <span id="currentPage">1</span> / <span id="totalPages"></span>
+            </div>
+            <button id="nextButton" class="btn btn-primary pagination-button">
+                下一頁 <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
     </div>
 </div>
 
@@ -125,8 +156,8 @@
 <script src="~/js/accessibilty.js"></script>
 <script src="~/js/variwide.js"></script>
 
-<script src="~/js/charts/pieFunc.js"></script>
-<script src="~/js/charts/barFunc.js"></script>
+<script src="~/js/chartFunc/barFunc.js"></script>
+<script src="~/js/chartFunc/pieFunc.js"></script>
 
 <script>
     // Prepare data for charts
@@ -162,15 +193,76 @@
                 // Submit the form when industry is selected
                 $("#industryForm").submit();
             });
+
+            // Initialize pagination
+            initPagination();
+
         } catch (error) {
-            console.error("Error initializing charts:", error);
+            console.error("Error initializing page:", error);
         }
     });
+
+    // Pagination variables and functions
+    let currentPage = 1;
+    const rowsPerPage = 8;
+    let totalPages = 1;
+
+    function initPagination() {
+        const rows = $('#dataTable tbody tr');
+        totalPages = Math.ceil(rows.length / rowsPerPage);
+
+        // Update total pages display
+        $('#totalPages').text(totalPages);
+
+        // Initial page display
+        showPage(currentPage);
+        updatePaginationButtons();
+
+        // Attach event handlers to pagination buttons
+        $('#prevButton').click(function() {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+                updatePaginationButtons();
+            }
+        });
+
+        $('#nextButton').click(function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+                updatePaginationButtons();
+            }
+        });
+    }
+
+    function showPage(page) {
+        const rows = $('#dataTable tbody tr');
+
+        // Hide all rows
+        rows.hide();
+
+        // Calculate start and end indices for current page
+        const startIndex = (page - 1) * rowsPerPage;
+        const endIndex = startIndex + rowsPerPage;
+
+        // Show rows for current page
+        rows.slice(startIndex, endIndex).show();
+
+        // Update current page display
+        $('#currentPage').text(page);
+    }
+
+    function updatePaginationButtons() {
+        // Disable/enable previous button
+        $('#prevButton').prop('disabled', currentPage === 1);
+
+        // Disable/enable next button
+        $('#nextButton').prop('disabled', currentPage === totalPages);
+    }
 </script>
 
 <script>
-    
+   
 
-  
-    
 </script>
