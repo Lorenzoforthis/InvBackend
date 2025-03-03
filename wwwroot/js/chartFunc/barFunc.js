@@ -5,7 +5,7 @@ function barChart() {
                 type: 'variwide'
             },
             title: {
-                text: 'EPS 與 營業收入分額',
+                text: 'EPS Q2',
                 align: 'left'
             },
             subtitle: {
