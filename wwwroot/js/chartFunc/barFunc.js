@@ -5,7 +5,7 @@ function barChart() {
                 type: 'variwide'
             },
             title: {
-                text: 'EPS èˆ‡ ç‡Ÿæ¥­æ”¶å…¥åˆ†é¡',
+                text: 'EPS »P Àç·~¦¬¤J¤ÀÃB',
                 align: 'left'
             },
             subtitle: {
@@ -16,13 +16,13 @@ function barChart() {
                 categories: companyNames
             },
             caption: {
-                text: '<å–®ä½:åƒå…ƒ>'
+                text: '<³æ¦ì:¤d¤¸>'
             },
             legend: {
                 enabled: false
             },
             series: [{
-                name: 'å…¬å¸åç¨±',
+                name: '¤½¥q¦WºÙ',
                 data: barElts,
                 dataLabels: {
                     enabled: true,
@@ -30,7 +30,7 @@ function barChart() {
                 },
                 tooltip: {
                     pointFormat: 'EPS: <b> {point.y}</b><br>' +
-                        'ç¨…å‰æ·¨åˆ©: <b> {point.z} åƒå…ƒ</b><br>'
+                        'µ|«e²b§Q: <b> {point.z} ¤d¤¸</b><br>'
                 },
                 borderRadius: 3,
                 colorByPoint: true

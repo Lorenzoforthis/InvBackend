@@ -153,9 +153,6 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-@* <script src="~/js/bootstrap.bundle.min.js"></script> *@
-@* <script src="~/js/jquery-3-7-1-min.js"></script> *@
-
 <script src="~/js/graphChart.js"></script>
 <script src="~/js/pieChartMore.js"></script>
 <script src="~/js/export_data.js"></script>
@@ -256,10 +253,92 @@
         const endIndex = startIndex + rowsPerPage;
 
         // Show rows for current page
-        rows.slice(startIndex, endIndex).show();
+        const currentPageRows = rows.slice(startIndex, endIndex);
+        currentPageRows.show();
 
         // Update current page display
         $('#currentPage').text(page);
+
+        // Update charts with data from current page rows only
+        updateChartsWithCurrentPageData(currentPageRows);
+    }
+
+    // New function to extract data from current page rows and update charts
+    function updateChartsWithCurrentPageData(currentPageRows) {
+        // Initialize empty arrays for chart data
+        const pageCompanyNames = [];
+        const pageOperatingRevData = [];
+        const pageOperatingProfitData = [];
+        const pageNonOperatingData = [];
+        const pageEpsData = [];
+        const pageNetIncomeData = [];
+
+        // Extract data from current page rows
+        currentPageRows.each(function() {
+            const cells = $(this).find('td');
+
+            // Get values from table cells
+            const companyName = cells.eq(1).text().trim();
+            const eps = parseFloat(cells.eq(3).text().trim());
+            const operatingRev = parseFloat(cells.eq(4).text().trim());
+            const operatingProfit = parseFloat(cells.eq(5).text().trim());
+            const nonOperating = parseFloat(cells.eq(6).text().trim());
+            const netIncome = parseFloat(cells.eq(7).text().trim());
+
+            // Add data to arrays
+            pageCompanyNames.push(companyName);
+            pageOperatingRevData.push(operatingRev);
+            pageOperatingProfitData.push(operatingProfit);
+            pageNonOperatingData.push(nonOperating);
+            pageEpsData.push(eps);
+            pageNetIncomeData.push(netIncome);
+        });
+
+        // Calculate operating costs for current page
+        const pageOperatingCostData = pageOperatingRevData.map((rev, index) =>
+            rev - pageOperatingProfitData[index]);
+
+        // Create data for bar chart
+        const pageBarElts = pageCompanyNames.map((name, index) => {
+            return {
+                name: name,
+                y: pageEpsData[index],
+                z: pageNetIncomeData[index],
+                x: index
+            };
+        });
+
+        // Update charts with new data
+        updatePieChart(pageCompanyNames, pageOperatingCostData, pageOperatingProfitData, pageNonOperatingData);
+        updateBarChart(pageCompanyNames, pageBarElts);
+    }
+
+    // Function to update pie chart with new data
+    function updatePieChart(categories, costData, profitData, nonOperatingData) {
+        const chart = Highcharts.charts.find(chart => chart && chart.renderTo.id === 'pie_chart');
+
+        if (chart) {
+            // Update categories
+            chart.xAxis[0].setCategories(categories);
+
+            // Update series data
+            chart.series[0].setData(costData);
+            chart.series[1].setData(profitData);
+            chart.series[2].setData(nonOperatingData);
+        }
+    }
+
+    // Function to update bar chart with new data
+    function updateBarChart(categories, barData) {
+        const chart = Highcharts.charts.find(chart => chart && chart.renderTo.id === 'bar_chart');
+
+        if (chart) {
+            // Update categories
+            chart.xAxis[0].setCategories(categories);
+
+            // Update series data
+            chart.series[0].setData(barData);
+        }
     }
 
     function updatePaginationButtons() {
@@ -272,6 +351,5 @@
 </script>
 
 <script>
-   
-
+    
 </script>
